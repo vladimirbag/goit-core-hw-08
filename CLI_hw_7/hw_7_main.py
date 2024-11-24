@@ -31,7 +31,9 @@ class Birthday(Field):
 
     def validate_birthday(self, value):
         try:
-            return datetime.strptime(value, "%d.%m.%Y").date()
+            # Перевіряємо формат і коректність дати
+            datetime.strptime(value, "%d.%m.%Y")
+            return value  # Зберігаємо рядок, якщо дата валідна
         except ValueError:
             raise ValueError("Invalid date format. Use DD.MM.YYYY")
 
