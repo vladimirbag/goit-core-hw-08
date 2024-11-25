@@ -91,7 +91,7 @@ class AddressBook(UserDict):
 
         for record in self.data.values():
             if record.birthday:
-                birthday_date = record.birthday.value
+                birthday_date = datetime.strptime(record.birthday.value, "%d.%m.%Y").date()
                 next_birthday = birthday_date.replace(year=today.year)
 
                 if next_birthday < today:
