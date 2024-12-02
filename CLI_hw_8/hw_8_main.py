@@ -124,7 +124,7 @@ class AddressBook(UserDict):
             with open(filename, "rb") as file:
                 self.data = pickle.load(file)
         except FileNotFoundError:
-            pass  # Якщо файл не знайдено, починаємо з порожньої адресної книги
+            pass  # Якщо файл не знайдено то починаємо з порожньої адресної книги
 
 # Обробники помилок
 def input_error(func):
