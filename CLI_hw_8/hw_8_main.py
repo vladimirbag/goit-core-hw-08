@@ -1,3 +1,4 @@
+import pickle
 from collections import UserDict
 from datetime import datetime, timedelta
 
@@ -111,7 +112,19 @@ class AddressBook(UserDict):
     def __str__(self):
         contacts = "\n".join(str(record) for record in self.data.values())
         return f"AddressBook:\n{contacts}"
+    
+    # Збереження даних у файл
+    def save_to_file(self, filename="address_book.pkl"):
+        with open(filename, "wb") as file:
+            pickle.dump(self.data, file)
 
+    # Завантаження даних із файлу
+    def load_from_file(self, filename="address_book.pkl"):
+        try:
+            with open(filename, "rb") as file:
+                self.data = pickle.load(file)
+        except FileNotFoundError:
+            pass  # Якщо файл не знайдено, починаємо з порожньої адресної книги
 
 # Обробники помилок
 def input_error(func):
@@ -201,12 +214,14 @@ def parse_input(user_input):
 # Головна функція
 def main():
     book = AddressBook()
+    book.load_from_file()  # Завантажуємо дані з файлу при старті програми
     print("Welcome to the assistant bot!")
     while True:
         user_input = input("Enter a command: ")
         command, args = parse_input(user_input)
 
         if command in ["close", "exit"]:
+            book.save_to_file()  # Зберігаємо дані у файл при виході
             print("Good bye!")
             break
         elif command == "hello":
